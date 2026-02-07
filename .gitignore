@@ -46,6 +46,13 @@ env/
 .pytest_cache/
 htmlcov/
 
+# Secrets / Environment
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+
 # Temporary files
 *.tmp
 *.temp

@@ -2,8 +2,6 @@
 
 A retro-style terminal-based light cycle racing game inspired by TRON, featuring ASCII graphics, power-ups, and thrilling gameplay!
 
-![Game Screenshot](screenshot.png)
-
 ## Features
 
 - 🏍️ Retro terminal-based gameplay with ASCII art
@@ -27,14 +25,11 @@ A retro-style terminal-based light cycle racing game inspired by TRON, featuring
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/light-racer-crasher.git
+git clone https://github.com/lakotafox/light-racer-crasher.git
 cd light-racer-crasher
 ```
 
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+No external dependencies required — the game uses Python's built-in `curses` library.
 
 ## How to Play
 

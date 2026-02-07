@@ -2,7 +2,6 @@
 import curses
 import time
 import random
-import math
 import subprocess
 import threading
 import os
@@ -14,6 +13,7 @@ class SoundManager:
         self.music_process = None
         self.sound_enabled = True
         self.base_path = os.path.dirname(os.path.abspath(__file__))
+        self._active_procs = []
         
     def play_background_music(self):
         """Play background music once using afplay"""
@@ -24,25 +24,37 @@ class SoundManager:
             try:
                 music_path = os.path.join(self.base_path, 'background_music.wav')
                 if os.path.exists(music_path):
-                    subprocess.run(['afplay', music_path], capture_output=True)
-            except:
+                    proc = subprocess.Popen(['afplay', music_path],
+                                            stdout=subprocess.DEVNULL,
+                                            stderr=subprocess.DEVNULL)
+                    self._active_procs.append(proc)
+                    proc.wait()
+            except (OSError, subprocess.SubprocessError):
                 pass
         
         if self.music_process is None or not self.music_process.is_alive():
             self.music_process = threading.Thread(target=play_music, daemon=True)
             self.music_process.start()
     
+    ALLOWED_SOUNDS = {'crash.wav', 'menu_select.wav', 'background_music.wav'}
+
     def play_sound_effect(self, sound_file):
         """Play a sound effect using afplay"""
         if not self.sound_enabled:
             return
-            
+        if sound_file not in self.ALLOWED_SOUNDS:
+            return
+
         def play():
             try:
                 sound_path = os.path.join(self.base_path, sound_file)
                 if os.path.exists(sound_path):
-                    subprocess.run(['afplay', sound_path], capture_output=True)
-            except:
+                    proc = subprocess.Popen(['afplay', sound_path],
+                                            stdout=subprocess.DEVNULL,
+                                            stderr=subprocess.DEVNULL)
+                    self._active_procs.append(proc)
+                    proc.wait()
+            except (OSError, subprocess.SubprocessError):
                 pass
         
         threading.Thread(target=play, daemon=True).start()
@@ -58,10 +70,12 @@ class SoundManager:
     def stop_music(self):
         """Stop background music"""
         self.sound_enabled = False
-        try:
-            subprocess.run(['killall', 'afplay'], capture_output=True)
-        except:
-            pass
+        for proc in self._active_procs:
+            try:
+                proc.terminate()
+            except OSError:
+                pass
+        self._active_procs.clear()
     
     def toggle_sound(self):
         """Toggle sound on/off"""
@@ -316,7 +330,7 @@ class LightBikeEnhanced:
                     crowd_line += ' '
             try:
                 self.stdscr.addstr(y, 0, crowd_line[:self.width-1])
-            except:
+            except curses.error:
                 pass
                         
         # Side crowds
@@ -327,7 +341,7 @@ class LightBikeEnhanced:
                     char = crowd_chars[(x + y + self.crowd_animation) % len(crowd_chars)]
                     try:
                         self.stdscr.addstr(y, x, char)
-                    except:
+                    except curses.error:
                         pass
             # Right crowd
             for x in range(self.stadium_right + 1, self.width):
@@ -335,7 +349,7 @@ class LightBikeEnhanced:
                     char = crowd_chars[(x + y + self.crowd_animation) % len(crowd_chars)]
                     try:
                         self.stdscr.addstr(y, x, char)
-                    except:
+                    except curses.error:
                         pass
                         
         self.stdscr.attroff(curses.color_pair(7))
@@ -379,7 +393,7 @@ class LightBikeEnhanced:
                         self.stdscr.addstr(pickup.y, pickup.x, '◊')
                     else:
                         self.stdscr.addstr(pickup.y, pickup.x, '♦')
-                except:
+                except curses.error:
                     pass
                 self.stdscr.attroff(curses.color_pair(pickup.color) | curses.A_BOLD)
         
@@ -398,7 +412,7 @@ class LightBikeEnhanced:
                 char_idx = min(3, i * 4 // trail_len) if trail_len > 0 else 3
                 try:
                     self.stdscr.addstr(y, x, trail_chars[char_idx])
-                except:
+                except curses.error:
                     pass
         
         # Draw bike with direction sprite
@@ -415,14 +429,14 @@ class LightBikeEnhanced:
                         if self.stadium_top <= ny < self.stadium_bottom and self.stadium_left <= nx < self.stadium_right:
                             try:
                                 self.stdscr.addstr(ny, nx, '·')
-                            except:
+                            except curses.error:
                                 pass
                 self.stdscr.attroff(curses.color_pair(7) | curses.A_BOLD)
             
             self.stdscr.attron(curses.A_BOLD)
             try:
                 self.stdscr.addstr(bike.y, bike.x, bike.get_sprite())
-            except:
+            except curses.error:
                 pass
             self.stdscr.attroff(curses.A_BOLD)
             
@@ -684,7 +698,7 @@ class LightBikeEnhanced:
                     self.stadium_left <= x + dx < self.stadium_right):
                     try:
                         self.stdscr.addstr(y + dy, x + dx, explosion[frame])
-                    except:
+                    except curses.error:
                         pass
         self.stdscr.attroff(curses.color_pair(4) | curses.A_BOLD)
         
@@ -722,7 +736,7 @@ class LightBikeEnhanced:
                 x = max(0, (self.width - len(line)) // 2)
                 try:
                     self.stdscr.addstr(start_y + i, x, line)
-                except:
+                except curses.error:
                     pass
         self.stdscr.attroff(curses.color_pair(4) | curses.A_BOLD)
         
@@ -739,7 +753,7 @@ class LightBikeEnhanced:
             msg = "Terminal too small! Please resize and press any key..."
             try:
                 self.stdscr.addstr(self.height // 2, max(0, (self.width - len(msg)) // 2), msg[:self.width-1])
-            except:
+            except curses.error:
                 pass
             self.stdscr.refresh()
             self.stdscr.getch()
@@ -823,7 +837,7 @@ class LightBikeEnhanced:
             self.stdscr.attron(curses.color_pair(8))
             try:
                 self.stdscr.addstr(start_y + i, x, line[:self.width-1])
-            except:
+            except curses.error:
                 pass
             self.stdscr.attroff(curses.color_pair(8))
         
@@ -836,7 +850,7 @@ class LightBikeEnhanced:
             try:
                 self.stdscr.addstr(loading_y, loading_x, "BOOTING NEON CYCLE ARENA...")
                 self.stdscr.addstr(loading_y + 2, loading_x, "[" + " " * 46 + "]")
-            except:
+            except curses.error:
                 pass
         
         # Loading stages
@@ -872,7 +886,7 @@ class LightBikeEnhanced:
                 percent_str = f"{percent}%"
                 if loading_x + 48 < self.width - 4:
                     self.stdscr.addstr(loading_y + 2, loading_x + 48, percent_str)
-            except:
+            except curses.error:
                 pass
             
             self.stdscr.refresh()
@@ -893,7 +907,7 @@ class LightBikeEnhanced:
             msg_x = max(0, (self.width - len(ready_msg)) // 2)
             try:
                 self.stdscr.addstr(loading_y + 6, msg_x, ready_msg[:self.width-1])
-            except:
+            except curses.error:
                 pass
             self.stdscr.attroff(curses.color_pair(8) | curses.A_BOLD | curses.A_BLINK)
         
@@ -1027,13 +1041,7 @@ class LightBikeEnhanced:
                     self.score += 1
 
 def main():
-    import os
-    import sys
-    
-    # Clear screen first
-    os.system('clear' if os.name != 'nt' else 'cls')
-    
-    # Run the game
+    # curses.wrapper already handles screen init/cleanup — no need for os.system('clear')
     curses.wrapper(lambda stdscr: LightBikeEnhanced(stdscr).run())
 
 if __name__ == "__main__":

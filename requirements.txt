@@ -1,1 +1,4 @@
-pygame>=2.5.0
+# Light Racer Crasher - Dependencies
+# The game uses Python's built-in curses library (no external deps required for gameplay).
+# numpy is only needed if regenerating sound files from scratch.
+# numpy>=1.21.0
