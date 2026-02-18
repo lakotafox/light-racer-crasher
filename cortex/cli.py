@@ -6,6 +6,7 @@ import sys
 from cortex import knowledge_store
 from cortex.learner import ingest, identify_gaps, suggest_next_topics
 from cortex.reflect import reflect, synthesize
+from cortex.tasks import generate_tasks, save_task_queue, next_task
 
 
 def _print_json(data: dict | list, compact: bool = False):
@@ -173,6 +174,61 @@ def cmd_stats(args):
     _print_json(stats)
 
 
+def cmd_tasks(args):
+    """Generate and display prioritized research tasks."""
+    tasks = generate_tasks()
+
+    if not tasks:
+        print("No tasks to generate. Knowledge base may be in good shape.")
+        return
+
+    if args.save:
+        path = save_task_queue(tasks)
+        print(f"Task queue saved to {path}\n")
+
+    priority_labels = {1: "CRITICAL", 2: "HIGH", 3: "MEDIUM", 4: "LOW", 5: "WHEN READY"}
+    action_labels = {
+        "research": "RESEARCH",
+        "verify": "VERIFY",
+        "connect": "CONNECT",
+        "deepen": "DEEPEN",
+        "synthesize": "SYNTHESIZE",
+    }
+
+    print(f"=== Task Queue ({len(tasks)} tasks) ===\n")
+    for i, task in enumerate(tasks, 1):
+        pri = priority_labels.get(task["priority"], f"P{task['priority']}")
+        act = action_labels.get(task["action"], task["action"].upper())
+        domain = f" [{task['domain']}]" if task.get("domain") else ""
+        print(f"  {i}. [{pri}] {act}{domain}")
+        print(f"     {task['description']}")
+        print(f"     Why: {task['reasoning']}")
+        if task.get("tags"):
+            print(f"     Related: {', '.join(task['tags'])}")
+        print()
+
+
+def cmd_next(args):
+    """Show the single highest-priority task to work on next."""
+    task = next_task()
+    if task is None:
+        print("No pending tasks. Knowledge base is in good shape.")
+        return
+
+    priority_labels = {1: "CRITICAL", 2: "HIGH", 3: "MEDIUM", 4: "LOW", 5: "WHEN READY"}
+    pri = priority_labels.get(task["priority"], f"P{task['priority']}")
+
+    print(f"=== Next Task [{pri}] ===\n")
+    print(f"  Action:  {task['action'].upper()}")
+    if task.get("domain"):
+        print(f"  Domain:  {task['domain']}")
+    print(f"  Task:    {task['description']}")
+    print(f"  Why:     {task['reasoning']}")
+    if task.get("tags"):
+        print(f"  Related: {', '.join(task['tags'])}")
+    print()
+
+
 def cmd_delete(args):
     """Delete an entry."""
     if knowledge_store.delete(args.id):
@@ -229,6 +285,15 @@ def main():
     # stats
     p_stats = subparsers.add_parser("stats", help="Show knowledge base statistics")
     p_stats.set_defaults(func=cmd_stats)
+
+    # tasks
+    p_tasks = subparsers.add_parser("tasks", help="Generate prioritized research tasks")
+    p_tasks.add_argument("--save", action="store_true", help="Save task queue to disk")
+    p_tasks.set_defaults(func=cmd_tasks)
+
+    # next
+    p_next = subparsers.add_parser("next", help="Show the single highest-priority task")
+    p_next.set_defaults(func=cmd_next)
 
     # delete
     p_del = subparsers.add_parser("delete", help="Delete an entry")
