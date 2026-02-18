@@ -1,77 +1,85 @@
-# Light Racer Crasher
+# Cortex
 
-A retro-style terminal-based light cycle racing game inspired by TRON, featuring ASCII graphics, power-ups, and thrilling gameplay!
+Recursive knowledge system for AI-assisted learning and decision-making.
 
-## Features
+Cortex gives Claude (or any AI assistant) a persistent, structured memory that compounds over time. It stores individual learnings, automatically finds connections between them, identifies knowledge gaps, and synthesizes higher-level understanding through reflection.
 
-- 🏍️ Retro terminal-based gameplay with ASCII art
-- 🎮 Play against AI opponent
-- 🛡️ Multiple power-ups:
-  - **Shield** - Protects from crashes for 5 seconds
-  - **Boost** - Maximum speed boost
-  - **Speed** - Faster movement
-  - **Stealth** - Temporarily disable your trail
-- 🎵 Sound effects and background music
-- 💻 Retro boot sequence with "SIMULATOR 78" theme
-- 🏟️ Animated stadium with crowd effects
+## How It Works
 
-## Requirements
+1. **Learn** — Ingest facts, insights, and observations into structured entries
+2. **Connect** — Automatically finds relationships between entries based on content, tags, and domains
+3. **Reflect** — Periodic reflection passes analyze the full knowledge base, spotting gaps and clusters
+4. **Synthesize** — Combines individual entries into domain-level understanding
+5. **Repeat** — Each cycle builds on the last, reinforcing strong knowledge and flagging weak areas
 
-- Python 3.6+
-- macOS (uses `afplay` for sound)
-- Terminal with support for Unicode characters
+## Usage
 
-## Installation
-
-1. Clone the repository:
 ```bash
-git clone https://github.com/lakotafox/light-racer-crasher.git
-cd light-racer-crasher
+# Learn something new
+python -m cortex.cli learn "Coral bleaching accelerates above 1.5C warming" -d climate -t "ocean,coral,temperature"
+
+# Search existing knowledge
+python -m cortex.cli search "coral"
+
+# See what's in the knowledge base
+python -m cortex.cli list
+python -m cortex.cli list -d climate
+
+# Identify gaps — what needs more depth
+python -m cortex.cli gaps
+
+# Run a reflection pass
+python -m cortex.cli reflect
+
+# Synthesize knowledge into higher-level understanding
+python -m cortex.cli synthesize
+python -m cortex.cli synthesize -d climate
+
+# Stats
+python -m cortex.cli stats
 ```
 
-No external dependencies required — the game uses Python's built-in `curses` library.
+## Architecture
 
-## How to Play
+```
+cortex/
+  __init__.py          # Package init
+  knowledge_store.py   # CRUD for knowledge entries (JSON file-based)
+  learner.py           # Ingestion, deduplication, connection-finding, gap analysis
+  reflect.py           # Reflection engine, synthesis, maturity scoring
+  cli.py               # Command-line interface
 
-1. Run the game:
-```bash
-python3 lightbike.py
+knowledge_base/
+  entries/             # Individual knowledge entries (JSON)
+  reflections/         # Reflection pass outputs
+  syntheses/           # Synthesis outputs
 ```
 
-2. At boot prompt, type `Y` to start the game
+## Knowledge Entries
 
-3. Controls:
-   - **Arrow Keys** - Move your light cycle
-   - **T** - Toggle trail on/off
-   - **S** - Toggle sound on/off
-   - **R** - Restart game
-   - **Q** - Quit
+Each entry is a JSON file containing:
 
-## Gameplay Tips
+- **content** — the actual fact or insight
+- **domain** — top-level category (climate, biodiversity, security, etc.)
+- **tags** — finer-grained labels for connection-finding
+- **confidence** — 0.0 to 1.0, how reliable this knowledge is
+- **connections** — IDs of related entries (auto-discovered)
+- **reinforced** — how many times this was confirmed from different sources
 
-- Avoid crashing into walls, your own trail, or the opponent's trail
-- Collect power-ups to gain advantages
-- Use the trail toggle strategically to confuse your opponent
-- The Shield power-up can save you from crashes!
+## Maturity Model
 
-## Terminal Requirements
+The system tracks knowledge base maturity across four levels:
 
-For the best experience:
-- Maximize your terminal window before starting
-- Minimum recommended size: 80x24 characters
-- The game will warn you if your terminal is too small
+| Level | Score | Meaning |
+|---|---|---|
+| Nascent | 0-25 | Just getting started |
+| Developing | 25-50 | Building breadth, low connectivity |
+| Proficient | 50-75 | Good coverage, connections forming |
+| Expert | 75-100 | Deep, well-connected, reinforced knowledge |
 
-## Sound Files
+## Design Principles
 
-The game includes three sound effects:
-- `background_music.wav` - Plays once when the game starts
-- `crash.wav` - Plays when a bike crashes
-- `menu_select.wav` - Plays for menu selections and pickups
-
-## License
-
-This project is open source and available under the MIT License.
-
-## Credits
-
-Created with ❤️ using Python and curses library
+- **File-based** — everything is JSON on disk, git-friendly, no database required
+- **Zero dependencies** — pure Python stdlib, runs anywhere
+- **Compounding** — knowledge reinforcement and connection-finding mean the system gets more valuable over time
+- **Transparent** — every entry, reflection, and synthesis is readable JSON you can inspect
