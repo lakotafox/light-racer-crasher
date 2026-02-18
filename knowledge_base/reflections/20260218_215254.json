@@ -1,0 +1,83 @@
+{
+  "timestamp": "2026-02-18T21:52:54.616939+00:00",
+  "state": {
+    "total_entries": 7,
+    "domains": {
+      "biodiversity": 3,
+      "climate": 4
+    },
+    "avg_confidence": 0.843,
+    "most_accessed": "7ef31dd6bf83",
+    "most_reinforced": "1e68318dd828"
+  },
+  "gaps": [
+    {
+      "type": "isolated",
+      "entry_id": "8ffe1bdd6df4",
+      "domain": "climate",
+      "message": "Entry '8ffe1bdd6df4' has no connections. May be an outlier or a seed for a new knowledge cluster."
+    },
+    {
+      "type": "isolated",
+      "entry_id": "c946646d8520",
+      "domain": "climate",
+      "message": "Entry 'c946646d8520' has no connections. May be an outlier or a seed for a new knowledge cluster."
+    },
+    {
+      "type": "isolated",
+      "entry_id": "e65d81de8990",
+      "domain": "biodiversity",
+      "message": "Entry 'e65d81de8990' has no connections. May be an outlier or a seed for a new knowledge cluster."
+    }
+  ],
+  "strongest_clusters": [
+    {
+      "hub_id": "3c722c426b9c",
+      "domain": "climate",
+      "connection_count": 2,
+      "confidence": 0.85,
+      "content_preview": "Rising ocean temperatures from CO2 absorption cause coral bleaching, which collapses reef ecosystems"
+    }
+  ],
+  "most_reliable": [
+    {
+      "id": "c946646d8520",
+      "domain": "climate",
+      "confidence": 0.95,
+      "reinforced": 0,
+      "preview": "30% of global CO2 emissions are absorbed by oceans, progressively lowering pH le"
+    },
+    {
+      "id": "8ffe1bdd6df4",
+      "domain": "climate",
+      "confidence": 0.9,
+      "reinforced": 0,
+      "preview": "Ocean acidification reduces calcium carbonate availability, threatening coral re"
+    },
+    {
+      "id": "3c722c426b9c",
+      "domain": "climate",
+      "confidence": 0.85,
+      "reinforced": 0,
+      "preview": "Rising ocean temperatures from CO2 absorption cause coral bleaching, which colla"
+    },
+    {
+      "id": "e65d81de8990",
+      "domain": "biodiversity",
+      "confidence": 0.85,
+      "reinforced": 0,
+      "preview": "Deforestation in the Amazon has accelerated 20% since 2019, directly threatening"
+    },
+    {
+      "id": "1e68318dd828",
+      "domain": "biodiversity",
+      "confidence": 0.8,
+      "reinforced": 0,
+      "preview": "Coral reef loss displaces 500M people who depend on reefs for food and coastal p"
+    }
+  ],
+  "growth": {},
+  "recommendations": [
+    "Knowledge base is in good shape. Continue expanding."
+  ]
+}

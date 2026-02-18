@@ -1,0 +1,20 @@
+{
+  "id": "f3cd85925735",
+  "content": "Mangrove forests sequester 4x more carbon per hectare than terrestrial forests",
+  "domain": "climate",
+  "tags": [
+    "mangroves",
+    "carbon",
+    "sequestration",
+    "coastal"
+  ],
+  "source": "Nature journal",
+  "confidence": 0.75,
+  "connections": [
+    "8ffe1bdd6df4"
+  ],
+  "created_at": "2026-02-18T21:52:24.887950+00:00",
+  "updated_at": "2026-02-18T21:52:24.891586+00:00",
+  "access_count": 2,
+  "reinforced": 0
+}

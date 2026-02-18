@@ -1,0 +1,22 @@
+{
+  "id": "3c722c426b9c",
+  "content": "Rising ocean temperatures from CO2 absorption cause coral bleaching, which collapses reef ecosystems and the 500M livelihoods that depend on them",
+  "domain": "climate",
+  "tags": [
+    "ocean",
+    "coral",
+    "co2",
+    "biodiversity",
+    "food-security"
+  ],
+  "source": "cross-domain synthesis",
+  "confidence": 0.85,
+  "connections": [
+    "8ffe1bdd6df4",
+    "c946646d8520"
+  ],
+  "created_at": "2026-02-18T21:52:47.287995+00:00",
+  "updated_at": "2026-02-18T21:52:47.293381+00:00",
+  "access_count": 2,
+  "reinforced": 0
+}

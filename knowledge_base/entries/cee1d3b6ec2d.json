@@ -1,0 +1,20 @@
+{
+  "id": "cee1d3b6ec2d",
+  "content": "About 30% of human CO2 emissions end up absorbed by the world's oceans, lowering ocean pH over time",
+  "domain": "climate",
+  "tags": [
+    "ocean",
+    "co2",
+    "emissions"
+  ],
+  "source": "second source",
+  "confidence": 0.9,
+  "connections": [
+    "c946646d8520",
+    "3c722c426b9c"
+  ],
+  "created_at": "2026-02-18T21:53:09.730596+00:00",
+  "updated_at": "2026-02-18T21:53:09.735881+00:00",
+  "access_count": 2,
+  "reinforced": 0
+}

@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-02-18T21:53:01.478150+00:00",
+  "scope": "all",
+  "total_entries": 7,
+  "domain_summaries": {
+    "biodiversity": {
+      "entry_count": 3,
+      "avg_confidence": 0.817,
+      "top_themes": [
+        "food-security",
+        "amazon",
+        "deforestation",
+        "species",
+        "habitat-loss"
+      ],
+      "anchor_concept": {
+        "id": "1e68318dd828",
+        "content": "Coral reef loss displaces 500M people who depend on reefs for food and coastal protection"
+      },
+      "key_facts": [
+        "Deforestation in the Amazon has accelerated 20% since 2019, directly threatening 10% of all known species",
+        "Coral reef loss displaces 500M people who depend on reefs for food and coastal protection",
+        "Pollinator populations have declined 40% globally, directly threatening food crop yields"
+      ]
+    },
+    "climate": {
+      "entry_count": 4,
+      "avg_confidence": 0.863,
+      "top_themes": [
+        "ocean",
+        "co2",
+        "coral",
+        "emissions",
+        "ph"
+      ],
+      "anchor_concept": {
+        "id": "3c722c426b9c",
+        "content": "Rising ocean temperatures from CO2 absorption cause coral bleaching, which collapses reef ecosystems and the 500M liveli"
+      },
+      "key_facts": [
+        "30% of global CO2 emissions are absorbed by oceans, progressively lowering pH levels",
+        "Ocean acidification reduces calcium carbonate availability, threatening coral reefs and shellfish populations",
+        "Rising ocean temperatures from CO2 absorption cause coral bleaching, which collapses reef ecosystems and the 500M livelihoods that depend on them",
+        "Mangrove forests sequester 4x more carbon per hectare than terrestrial forests"
+      ]
+    }
+  },
+  "cross_domain_connections": [],
+  "maturity": {
+    "level": "developing",
+    "score": 45.8,
+    "breakdown": {
+      "avg_confidence": 0.843,
+      "reinforced_pct": 0.0,
+      "connected_pct": 0.571,
+      "volume_factor": 0.07
+    }
+  }
+}

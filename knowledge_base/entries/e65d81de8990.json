@@ -1,0 +1,18 @@
+{
+  "id": "e65d81de8990",
+  "content": "Deforestation in the Amazon has accelerated 20% since 2019, directly threatening 10% of all known species",
+  "domain": "biodiversity",
+  "tags": [
+    "amazon",
+    "deforestation",
+    "species",
+    "habitat-loss"
+  ],
+  "source": "IPBES Global Assessment",
+  "confidence": 0.85,
+  "connections": [],
+  "created_at": "2026-02-18T21:52:11.895590+00:00",
+  "updated_at": "2026-02-18T21:52:11.895610+00:00",
+  "access_count": 4,
+  "reinforced": 0
+}

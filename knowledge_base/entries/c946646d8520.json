@@ -1,0 +1,18 @@
+{
+  "id": "c946646d8520",
+  "content": "30% of global CO2 emissions are absorbed by oceans, progressively lowering pH levels",
+  "domain": "climate",
+  "tags": [
+    "ocean",
+    "co2",
+    "emissions",
+    "ph"
+  ],
+  "source": "IPCC AR6",
+  "confidence": 0.95,
+  "connections": [],
+  "created_at": "2026-02-18T21:52:24.706358+00:00",
+  "updated_at": "2026-02-18T21:52:24.706374+00:00",
+  "access_count": 2,
+  "reinforced": 0
+}
